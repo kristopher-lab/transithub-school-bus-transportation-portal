@@ -2,18 +2,19 @@ import React, { useState } from 'react';
 import { MOCK_DELAYS } from '@shared/mock-data';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
-import { Search, Filter, Bus, Clock, Calendar } from 'lucide-react';
-import { 
-  Table, 
-  TableBody, 
-  TableCell, 
-  TableHead, 
-  TableHeader, 
-  TableRow 
+import { cn } from '@/lib/utils';
+import { Search, Filter, Clock, Calendar } from 'lucide-react';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow
 } from '@/components/ui/table';
 export function DelaysPage() {
   const [search, setSearch] = useState('');
-  const filteredDelays = MOCK_DELAYS.filter(d => 
+  const filteredDelays = MOCK_DELAYS.filter(d =>
     d.routeNumber.toLowerCase().includes(search.toLowerCase()) ||
     d.school.toLowerCase().includes(search.toLowerCase())
   );
@@ -27,12 +28,11 @@ export function DelaysPage() {
           Real-time information on service disruptions. Updates are posted as soon as they are received from operators.
         </p>
       </div>
-      {/* Filters */}
       <div className="flex flex-col md:flex-row gap-4 mb-10 items-center justify-between">
         <div className="relative w-full md:max-w-md group">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground group-focus-within:text-primary transition-colors" />
-          <Input 
-            placeholder="Search by route or school..." 
+          <Input
+            placeholder="Search by route or school..."
             className="pl-10 h-12 bg-white dark:bg-slate-900 border-2 border-slate-100 dark:border-slate-800 focus:border-primary rounded-xl"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
@@ -48,7 +48,6 @@ export function DelaysPage() {
           </button>
         </div>
       </div>
-      {/* Desktop Table */}
       <div className="hidden md:block overflow-hidden rounded-2xl border-2 border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm">
         <Table>
           <TableHeader className="bg-slate-50 dark:bg-slate-800/50">
@@ -69,7 +68,7 @@ export function DelaysPage() {
                   <TableCell className="py-6">
                     <Badge className={cn(
                       "uppercase font-black tracking-widest text-[10px] px-3 py-1",
-                      delay.status === 'Cancelled' ? "bg-destructive text-white" : 
+                      delay.status === 'Cancelled' ? "bg-destructive text-white" :
                       delay.status === 'Delayed' ? "bg-primary text-slate-900" :
                       "bg-emerald-500 text-white"
                     )}>
@@ -99,7 +98,6 @@ export function DelaysPage() {
           </TableBody>
         </Table>
       </div>
-      {/* Mobile Grid */}
       <div className="grid md:hidden grid-cols-1 gap-4">
         {filteredDelays.map((delay) => (
           <div key={delay.id} className="bg-white dark:bg-slate-900 border-2 border-slate-100 dark:border-slate-800 p-5 rounded-2xl shadow-sm space-y-4">
@@ -110,7 +108,7 @@ export function DelaysPage() {
               </div>
               <Badge className={cn(
                 "uppercase font-black tracking-widest text-[10px] px-3 py-1",
-                delay.status === 'Cancelled' ? "bg-destructive text-white" : 
+                delay.status === 'Cancelled' ? "bg-destructive text-white" :
                 delay.status === 'Delayed' ? "bg-primary text-slate-900" :
                 "bg-emerald-500 text-white"
               )}>

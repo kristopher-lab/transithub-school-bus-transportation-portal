@@ -14,6 +14,8 @@ import '@/index.css'
 import { MainLayout } from '@/components/layout/MainLayout';
 import { HomePage } from '@/pages/HomePage';
 import { DelaysPage } from '@/pages/DelaysPage';
+import { ParentsPage } from '@/pages/ParentsPage';
+import { ContactPage } from '@/pages/ContactPage';
 const queryClient = new QueryClient();
 const router = createBrowserRouter([
   {
@@ -31,11 +33,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/parents",
-        element: <div className="max-w-7xl mx-auto px-4 py-20 text-center"><h1 className="text-4xl font-black uppercase italic">Parent Resources Coming Soon</h1></div>,
+        element: <ParentsPage />,
       },
       {
         path: "/contact",
-        element: <div className="max-w-7xl mx-auto px-4 py-20 text-center"><h1 className="text-4xl font-black uppercase italic">Contact Directory Coming Soon</h1></div>,
+        element: <ContactPage />,
       }
     ]
   },
