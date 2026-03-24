@@ -19,12 +19,13 @@ export interface RouteDelay {
   delayMinutes?: number;
   lastUpdated: string;
 }
+export type NewsCategory = 'Update' | 'Employment' | 'Safety' | 'Weather' | 'Community';
 export interface NewsItem {
   id: string;
   title: string;
   summary: string;
   date: string;
-  category: string;
+  category: NewsCategory;
 }
 export interface FAQItem {
   id: string;
