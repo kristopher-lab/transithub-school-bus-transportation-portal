@@ -2,7 +2,13 @@ import { Hono } from "hono";
 import type { Env } from './core-utils';
 import { AlertEntity, DelayEntity, NewsEntity, FAQEntity, ContactEntity } from "./entities";
 import { ok, bad } from './core-utils';
+
+let routesInjected = false;
+
 export function userRoutes(app: Hono<{ Bindings: Env }>) {
+  if (routesInjected) return;
+  routesInjected = true;
+
   // ALERTS - Sort by severity priority and date
   app.get('/api/alerts', async (c) => {
     try {

@@ -16,7 +16,7 @@ export class DelayEntity extends IndexedEntity<RouteDelay> {
 export class NewsEntity extends IndexedEntity<NewsItem> {
   static readonly entityName = "news";
   static readonly indexName = "news_list";
-  static readonly initialState: NewsItem = { id: "", title: "", summary: "", date: "", category: "" };
+  static readonly initialState: NewsItem = { id: "", title: "", summary: "", date: "", category: "Update" };
   static seedData = MOCK_NEWS;
 }
 export class FAQEntity extends IndexedEntity<FAQItem> {

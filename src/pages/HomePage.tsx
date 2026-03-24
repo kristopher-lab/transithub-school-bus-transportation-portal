@@ -10,6 +10,7 @@ import type { Alert, NewsItem } from '@shared/types';
 import { Skeleton } from '@/components/ui/skeleton';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { motion } from 'framer-motion';
+import { cn } from '@/lib/utils';
 export function HomePage() {
   const { data: alerts = [], isLoading: alertsLoading } = useQuery({
     queryKey: ['alerts'],
@@ -27,7 +28,7 @@ export function HomePage() {
         <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-primary via-transparent to-transparent"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="max-w-3xl">
-            <motion.h1 
+            <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               className="text-4xl md:text-6xl lg:text-7xl font-black text-white leading-tight uppercase italic mb-6"
@@ -113,8 +114,8 @@ export function HomePage() {
               ))
             ) : (
               displayNews.map((item, idx) => (
-                <motion.div 
-                  key={item.id} 
+                <motion.div
+                  key={item.id}
                   initial={{ opacity: 0, scale: 0.95 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   transition={{ delay: idx * 0.1 }}
