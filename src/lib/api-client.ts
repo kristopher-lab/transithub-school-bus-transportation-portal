@@ -13,7 +13,7 @@ export async function api<T>(path: string, init?: RequestInit): Promise<T> {
     const json = (await res.json()) as ApiResponse<T>;
     if (!res.ok || !json.success) {
       const errorMsg = json.error || `Request failed with status ${res.status}`;
-      console.error(`[API ERROR] ${path}:`, errorMsg);
+      console.error(`[API ERROR] ${path}:`, json);
       throw new Error(errorMsg);
     }
     if (json.data === undefined) {
