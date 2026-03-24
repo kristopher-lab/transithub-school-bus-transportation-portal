@@ -1,6 +1,6 @@
 # Cloudflare Workers React Starter Template
 
-[![Deploy to Cloudflare]([cloudflarebutton])](https://deploy.workers.cloudflare.com)
+[![Deploy to Cloudflare]([![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/kristopher-lab/transithub-school-bus-transportation-portal))](https://deploy.workers.cloudflare.com)
 
 A production-ready full-stack starter template powered by Cloudflare Workers, featuring a React frontend with shadcn/ui, TanStack Query, and a robust backend with Hono, Durable Objects for entities (Users, Chats), and indexed listing/pagination.
 
@@ -144,7 +144,7 @@ const users = await api<User[]>('/api/users');
    Deploys Worker + static assets to Cloudflare Pages/Workers Sites.
 
 3. **One-Click Deploy**:
-   [![Deploy to Cloudflare]([cloudflarebutton])](https://deploy.workers.cloudflare.com)
+   [![Deploy to Cloudflare]([![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/kristopher-lab/transithub-school-bus-transportation-portal))](https://deploy.workers.cloudflare.com)
 
 ### Production Config
 - Edit `wrangler.jsonc` for custom domains/bindings.
