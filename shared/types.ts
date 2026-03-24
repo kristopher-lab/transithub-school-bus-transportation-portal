@@ -3,22 +3,30 @@ export interface ApiResponse<T = unknown> {
   data?: T;
   error?: string;
 }
-
-// Minimal real-world chat example types (shared by frontend and worker)
 export interface User {
   id: string;
   name: string;
 }
-
-export interface Chat {
+export type AlertSeverity = 'info' | 'warning' | 'critical';
+export interface Alert {
+  id: string;
+  message: string;
+  severity: AlertSeverity;
+  date: string;
+}
+export type DelayStatus = 'Delayed' | 'Cancelled' | 'On Time';
+export interface RouteDelay {
+  id: string;
+  routeNumber: string;
+  school: string;
+  status: DelayStatus;
+  delayMinutes?: number;
+  lastUpdated: string;
+}
+export interface NewsItem {
   id: string;
   title: string;
-}
-
-export interface ChatMessage {
-  id: string;
-  chatId: string;
-  userId: string;
-  text: string;
-  ts: number; // epoch millis
+  summary: string;
+  date: string;
+  category: string;
 }

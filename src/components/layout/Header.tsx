@@ -12,7 +12,6 @@ export function Header() {
     { name: 'Parents', href: '/parents' },
     { name: 'Contact', href: '/contact' },
   ];
-  const currentPath = location?.pathname || '/';
   return (
     <header className="sticky top-0 z-40 w-full bg-white dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -33,8 +32,8 @@ export function Header() {
                 to={link.href}
                 className={cn(
                   "text-sm font-bold uppercase tracking-wide transition-colors hover:text-primary",
-                  currentPath === link.href
-                    ? "text-primary border-b-2 border-primary pb-1"
+                  location.pathname === link.href 
+                    ? "text-primary border-b-2 border-primary pb-1" 
                     : "text-muted-foreground"
                 )}
               >
@@ -46,10 +45,9 @@ export function Header() {
             </Button>
           </nav>
           {/* Mobile Toggle */}
-          <button
+          <button 
             className="md:hidden p-2 text-muted-foreground"
-            onClick={() => setIsOpen((prev) => !prev)}
-            aria-label="Toggle Menu"
+            onClick={() => setIsOpen(!isOpen)}
           >
             {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </button>
@@ -65,8 +63,8 @@ export function Header() {
               onClick={() => setIsOpen(false)}
               className={cn(
                 "block py-3 px-4 text-base font-bold uppercase rounded-lg transition-colors",
-                currentPath === link.href
-                  ? "bg-primary/10 text-primary"
+                location.pathname === link.href 
+                  ? "bg-primary/10 text-primary" 
                   : "text-muted-foreground hover:bg-slate-100 dark:hover:bg-slate-900"
               )}
             >
