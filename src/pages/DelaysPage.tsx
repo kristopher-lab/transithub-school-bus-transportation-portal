@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { MOCK_DELAYS } from '@shared/mock-data';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
-import { Search, Filter, Clock, Calendar } from 'lucide-react';
+import { Search, Filter, Clock, Calendar, RefreshCcw } from 'lucide-react';
+import { useQuery } from '@tanstack/react-query';
+import { api } from '@/lib/api-client';
+import type { RouteDelay } from '@shared/types';
 import {
   Table,
   TableBody,
@@ -12,21 +14,37 @@ import {
   TableHeader,
   TableRow
 } from '@/components/ui/table';
+import { Skeleton } from '@/components/ui/skeleton';
 export function DelaysPage() {
   const [search, setSearch] = useState('');
-  const filteredDelays = MOCK_DELAYS.filter(d =>
+  const { data: delays = [], isLoading, refetch, isRefetching } = useQuery({
+    queryKey: ['delays'],
+    queryFn: () => api<RouteDelay[]>('/api/delays'),
+    refetchInterval: 30000, // Auto-refresh every 30 seconds
+  });
+  const filteredDelays = delays.filter(d =>
     d.routeNumber.toLowerCase().includes(search.toLowerCase()) ||
     d.school.toLowerCase().includes(search.toLowerCase())
   );
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 lg:py-16 animate-in fade-in slide-in-from-bottom-4">
-      <div className="mb-10 text-center md:text-left">
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-black uppercase italic mb-4">
-          Delays & <span className="text-primary">Cancellations</span>
-        </h1>
-        <p className="text-lg text-muted-foreground max-w-2xl">
-          Real-time information on service disruptions. Updates are posted as soon as they are received from operators.
-        </p>
+      <div className="mb-10 flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
+        <div className="text-center md:text-left">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-black uppercase italic mb-4">
+            Delays & <span className="text-primary">Cancellations</span>
+          </h1>
+          <p className="text-lg text-muted-foreground max-w-2xl">
+            Real-time information on service disruptions. Updates are posted as soon as they are received from operators.
+          </p>
+        </div>
+        <button 
+          onClick={() => refetch()}
+          disabled={isRefetching}
+          className="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-secondary hover:text-primary transition-colors disabled:opacity-50"
+        >
+          <RefreshCcw className={cn("w-4 h-4", isRefetching && "animate-spin")} />
+          {isRefetching ? 'Updating...' : 'Refresh Status'}
+        </button>
       </div>
       <div className="flex flex-col md:flex-row gap-4 mb-10 items-center justify-between">
         <div className="relative w-full md:max-w-md group">
@@ -60,7 +78,13 @@ export function DelaysPage() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {filteredDelays.length > 0 ? (
+            {isLoading ? (
+              Array.from({ length: 5 }).map((_, i) => (
+                <TableRow key={i}>
+                  <TableCell colSpan={5} className="py-6"><Skeleton className="h-8 w-full" /></TableCell>
+                </TableRow>
+              ))
+            ) : filteredDelays.length > 0 ? (
               filteredDelays.map((delay) => (
                 <TableRow key={delay.id} className="group hover:bg-slate-50/50 dark:hover:bg-slate-800/20 transition-colors border-slate-100 dark:border-slate-800">
                   <TableCell className="font-black text-lg py-6">{delay.routeNumber}</TableCell>
@@ -99,7 +123,11 @@ export function DelaysPage() {
         </Table>
       </div>
       <div className="grid md:hidden grid-cols-1 gap-4">
-        {filteredDelays.map((delay) => (
+        {isLoading ? (
+          Array.from({ length: 3 }).map((_, i) => (
+            <Skeleton key={i} className="h-40 w-full rounded-2xl" />
+          ))
+        ) : filteredDelays.map((delay) => (
           <div key={delay.id} className="bg-white dark:bg-slate-900 border-2 border-slate-100 dark:border-slate-800 p-5 rounded-2xl shadow-sm space-y-4">
             <div className="flex justify-between items-start">
               <div>

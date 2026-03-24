@@ -1,6 +1,6 @@
 import { IndexedEntity } from "./core-utils";
-import type { Alert, RouteDelay, NewsItem } from "@shared/types";
-import { MOCK_ALERTS, MOCK_DELAYS, MOCK_NEWS } from "@shared/mock-data";
+import type { Alert, RouteDelay, NewsItem, FAQItem, ContactDistrict } from "@shared/types";
+import { MOCK_ALERTS, MOCK_DELAYS, MOCK_NEWS, MOCK_FAQS, MOCK_CONTACTS } from "@shared/mock-data";
 export class AlertEntity extends IndexedEntity<Alert> {
   static readonly entityName = "alert";
   static readonly indexName = "alerts";
@@ -18,4 +18,16 @@ export class NewsEntity extends IndexedEntity<NewsItem> {
   static readonly indexName = "news_list";
   static readonly initialState: NewsItem = { id: "", title: "", summary: "", date: "", category: "" };
   static seedData = MOCK_NEWS;
+}
+export class FAQEntity extends IndexedEntity<FAQItem> {
+  static readonly entityName = "faq";
+  static readonly indexName = "faqs";
+  static readonly initialState: FAQItem = { id: "", question: "", answer: "", category: "General" };
+  static seedData = MOCK_FAQS;
+}
+export class ContactEntity extends IndexedEntity<ContactDistrict> {
+  static readonly entityName = "contact";
+  static readonly indexName = "contacts";
+  static readonly initialState: ContactDistrict = { id: "", name: "", phone: "", email: "", zones: [], address: "" };
+  static seedData = MOCK_CONTACTS;
 }

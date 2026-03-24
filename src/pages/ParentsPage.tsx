@@ -1,16 +1,23 @@
 import React from 'react';
-import { MOCK_FAQS } from '@shared/mock-data';
-import { 
-  Accordion, 
-  AccordionContent, 
-  AccordionItem, 
-  AccordionTrigger 
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger
 } from '@/components/ui/accordion';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Search, MapPin, ShieldCheck, GraduationCap, ChevronRight } from 'lucide-react';
+import { useQuery } from '@tanstack/react-query';
+import { api } from '@/lib/api-client';
+import type { FAQItem } from '@shared/types';
+import { Skeleton } from '@/components/ui/skeleton';
 export function ParentsPage() {
+  const { data: faqs = [], isLoading } = useQuery({
+    queryKey: ['faqs'],
+    queryFn: () => api<FAQItem[]>('/api/faqs'),
+  });
   return (
     <div className="animate-in fade-in duration-500">
       {/* Hero */}
@@ -20,7 +27,7 @@ export function ParentsPage() {
             Parent <span className="text-primary">Resources</span>
           </h1>
           <p className="text-xl text-slate-300 max-w-2xl leading-relaxed">
-            Everything you need to ensure a smooth, safe journey for your student. 
+            Everything you need to ensure a smooth, safe journey for your student.
             From eligibility checks to safety protocols.
           </p>
         </div>
@@ -64,16 +71,22 @@ export function ParentsPage() {
                 <h2 className="text-3xl font-black uppercase italic">Frequently Asked <span className="text-primary">Questions</span></h2>
               </div>
               <Accordion type="single" collapsible className="w-full space-y-4">
-                {MOCK_FAQS.map((faq) => (
-                  <AccordionItem key={faq.id} value={faq.id} className="border-2 border-slate-100 rounded-2xl px-6 bg-white overflow-hidden shadow-sm">
-                    <AccordionTrigger className="text-lg font-bold hover:no-underline text-left py-6">
-                      {faq.question}
-                    </AccordionTrigger>
-                    <AccordionContent className="text-slate-600 leading-relaxed pb-6 text-base">
-                      {faq.answer}
-                    </AccordionContent>
-                  </AccordionItem>
-                ))}
+                {isLoading ? (
+                  Array.from({ length: 4 }).map((_, i) => (
+                    <Skeleton key={i} className="h-16 w-full rounded-2xl" />
+                  ))
+                ) : (
+                  faqs.map((faq) => (
+                    <AccordionItem key={faq.id} value={faq.id} className="border-2 border-slate-100 rounded-2xl px-6 bg-white overflow-hidden shadow-sm">
+                      <AccordionTrigger className="text-lg font-bold hover:no-underline text-left py-6">
+                        {faq.question}
+                      </AccordionTrigger>
+                      <AccordionContent className="text-slate-600 leading-relaxed pb-6 text-base">
+                        {faq.answer}
+                      </AccordionContent>
+                    </AccordionItem>
+                  ))
+                )}
               </Accordion>
             </section>
           </div>
